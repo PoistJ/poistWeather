@@ -9,19 +9,30 @@ async function getWeather() {
     console.log(err);
   });
 
-  const weatherData = await weatherFile.json();
+  const parsedWeatherData = await parseWeatherData(weatherFile);
 
-  console.log(weatherData);
+  const processedWeatherData = processWeatherData(parsedWeatherData);
 
-  logWeatherData(weatherData);
+  logWeatherData(processedWeatherData);
+};
+
+function parseWeatherData(data) {
+    return data.json();
+};
+
+function processWeatherData(parsedData) {
+    const weatherData = {};
+    weatherData.address = parsedData.address;
+    weatherData.currentConditions = parsedData.currentConditions;
+    weatherData.days = parsedData.days;
+    return weatherData;
 };
 
 function logWeatherData(data) {
-    console.log(`Location: ${data.resolvedAddress}`);
+    console.log(`Location: ${data.address}`);
     console.log(`Date: ${data.days[0].datetime}`);
     const feelsTemp = convertToCelsius(data.days[0].feelslike);
     console.log(`Feels Like: ${feelsTemp}`);
-    console.log(data.description);
 };
 
 function convertToCelsius(temp) {
