@@ -1,42 +1,10 @@
-// const url = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/Toronto?unitGroup=us&key=G4JWU9YA3CRVXWHA2GFSM6LT8&contentType=json"
+import { getWeather } from "./WeatherFunctions";
+import { todaysForecast } from "./DisplayController";
 
-async function getWeather() {
-  const weatherFile = await fetch(
-    "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/Toronto?unitGroup=us&key=G4JWU9YA3CRVXWHA2GFSM6LT8&contentType=json",
-    { method: "get" },
-    { mode: "cors" },
-  ).catch((err) => {
-    console.log(err);
-  });
+const submitBtn = document.querySelector('#submit');
 
-  const parsedWeatherData = await parseWeatherData(weatherFile);
-
-  const processedWeatherData = processWeatherData(parsedWeatherData);
-
-  logWeatherData(processedWeatherData);
-};
-
-function parseWeatherData(data) {
-    return data.json();
-};
-
-function processWeatherData(parsedData) {
-    const weatherData = {};
-    weatherData.address = parsedData.address;
-    weatherData.currentConditions = parsedData.currentConditions;
-    weatherData.days = parsedData.days;
-    return weatherData;
-};
-
-function logWeatherData(data) {
-    console.log(`Location: ${data.address}`);
-    console.log(`Date: ${data.days[0].datetime}`);
-    const feelsTemp = convertToCelsius(data.days[0].feelslike);
-    console.log(`Feels Like: ${feelsTemp}`);
-};
-
-function convertToCelsius(temp) {
-    return ((temp - 32) * (5/9));
-};
-
-getWeather();
+submitBtn.addEventListener('click', async () => {
+    const location = document.querySelector('#location').value;
+    const processedData = await getWeather(location);
+    todaysForecast(processedData);
+});
