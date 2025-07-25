@@ -29,6 +29,7 @@ function processWeatherData(parsedData) {
 }
 
 function logWeatherData(data) {
+    console.log(data);
   console.log(`Location: ${data.address}`);
   console.log(`Date: ${data.days[0].datetime}`);
   const feelsTemp = convertToCelsius(data.days[0].feelslike);
@@ -39,4 +40,4 @@ function convertToCelsius(temp) {
   return (temp - 32) * (5 / 9);
 }
 
-export { getWeather };
+export { getWeather, convertToCelsius };
