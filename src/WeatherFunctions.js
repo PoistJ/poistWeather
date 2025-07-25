@@ -14,29 +14,29 @@ async function getWeather(location) {
   logWeatherData(processedWeatherData);
 
   return processedWeatherData;
-};
+}
 
 function parseWeatherData(data) {
-    return data.json();
-};
+  return data.json();
+}
 
 function processWeatherData(parsedData) {
-    const weatherData = {};
-    weatherData.address = parsedData.address;
-    weatherData.currentConditions = parsedData.currentConditions;
-    weatherData.days = parsedData.days;
-    return weatherData;
-};
+  const weatherData = {};
+  weatherData.address = parsedData.address;
+  weatherData.currentConditions = parsedData.currentConditions;
+  weatherData.days = parsedData.days;
+  return weatherData;
+}
 
 function logWeatherData(data) {
-    console.log(`Location: ${data.address}`);
-    console.log(`Date: ${data.days[0].datetime}`);
-    const feelsTemp = convertToCelsius(data.days[0].feelslike);
-    console.log(`Feels Like: ${feelsTemp}`);
-};
+  console.log(`Location: ${data.address}`);
+  console.log(`Date: ${data.days[0].datetime}`);
+  const feelsTemp = convertToCelsius(data.days[0].feelslike);
+  console.log(`Feels Like: ${feelsTemp}`);
+}
 
 function convertToCelsius(temp) {
-    return ((temp - 32) * (5/9));
-};
+  return (temp - 32) * (5 / 9);
+}
 
 export { getWeather };

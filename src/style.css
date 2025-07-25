@@ -1,0 +1,10 @@
+html, body {
+    height: 100vh;
+}
+
+.weekForecast {
+    height: 300px;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: 1fr;
+}
