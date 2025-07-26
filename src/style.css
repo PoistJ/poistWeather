@@ -20,7 +20,7 @@ html, body {
 .hourlyForecast > div {
     border-style: solid;
     border-width: 1px;
-    border-color: lightgray;
+    border-color: #2d6a4f;
     text-align: center;
     margin: 20px 0px 20px 0px;
 }
@@ -30,4 +30,14 @@ html, body {
     font-size: 2em;
     text-align: center;
     margin-bottom: 20px;
+}
+
+#location {
+    background-color: #d8f3dc;
+    border-radius: 12px;
+    padding-left: 5px;
+}
+
+body {
+    background-color: #b7e4c7;
 }
