@@ -1,5 +1,10 @@
 import { getWeather } from "./WeatherFunctions";
-import { todaysForecast } from "./DisplayController";
+import {
+  hourlyForecast,
+  weeklyForecast,
+  displayLocation,
+  clearPage,
+} from "./DisplayController";
 import "./style.css";
 
 const submitBtn = document.querySelector("#submit");
@@ -7,5 +12,8 @@ const submitBtn = document.querySelector("#submit");
 submitBtn.addEventListener("click", async () => {
   const location = document.querySelector("#location").value;
   const processedData = await getWeather(location);
-  todaysForecast(processedData);
+  clearPage();
+  hourlyForecast(processedData);
+  weeklyForecast(processedData);
+  displayLocation(processedData);
 });

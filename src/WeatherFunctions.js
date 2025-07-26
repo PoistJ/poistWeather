@@ -1,6 +1,6 @@
 async function getWeather(location) {
   const weatherFile = await fetch(
-    `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?unitGroup=us&key=G4JWU9YA3CRVXWHA2GFSM6LT8&contentType=json`,
+    `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?unitGroup=metric&key=G4JWU9YA3CRVXWHA2GFSM6LT8&contentType=json`,
     { method: "get" },
     { mode: "cors" },
   ).catch((err) => {
@@ -10,8 +10,6 @@ async function getWeather(location) {
   const parsedWeatherData = await parseWeatherData(weatherFile);
 
   const processedWeatherData = processWeatherData(parsedWeatherData);
-
-  logWeatherData(processedWeatherData);
 
   return processedWeatherData;
 }
@@ -25,19 +23,30 @@ function processWeatherData(parsedData) {
   weatherData.address = parsedData.address;
   weatherData.currentConditions = parsedData.currentConditions;
   weatherData.days = parsedData.days;
+  weatherData.resolvedAddress = parsedData.resolvedAddress;
   return weatherData;
 }
 
-function logWeatherData(data) {
-    console.log(data);
-  console.log(`Location: ${data.address}`);
-  console.log(`Date: ${data.days[0].datetime}`);
-  const feelsTemp = convertToCelsius(data.days[0].feelslike);
-  console.log(`Feels Like: ${feelsTemp}`);
+function getWeekday(dateStr, locale) {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString(locale, { weekday: "long" });
 }
 
-function convertToCelsius(temp) {
-  return (temp - 32) * (5 / 9);
+function getCurrentHour() {
+    const currentDate = new Date();
+    return currentDate.getHours();
 }
 
-export { getWeather, convertToCelsius };
+
+function timeConvert (time) {
+  time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+
+  if (time.length > 1) {
+    time = time.slice (1)
+    time[5] = +time[0] < 12 ? 'AM' : 'PM';
+    time[0] = +time[0] % 12 || 12;
+  }
+  return time.join (''); // return adjusted time or original string
+}
+
+export { getWeather, getWeekday, getCurrentHour, timeConvert };
